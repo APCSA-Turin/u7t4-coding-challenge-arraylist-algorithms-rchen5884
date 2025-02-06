@@ -77,7 +77,8 @@ public class Main{
      *  @param wordList  arraylist of Strings
      */
     public static ArrayList<String> duplicateUpperEnd(ArrayList<String> wordList){
-        for (int i = 0; i < wordList.size(); i++) {
+        int size = wordList.size();
+        for (int i = 0; i < size; i++) {
             String upper = wordList.get(i).toUpperCase();
             wordList.add(upper);
         }
@@ -209,15 +210,15 @@ public class Main{
     // zeroFront([0, 1, 1, 0, 1]) → [0, 0, 1, 1, 1]
     // zeroFront([1, 0]) → [0, 1]
     public static ArrayList<Integer> zeroFront(ArrayList<Integer> list) {
-        int zeroIndex = 0; // Tracks where to place the next zero
+        int zero = 0; // Tracks where to place the next zero
 
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) == 0) {
                 // Swap current element with the zeroIndex position
                 int temp = list.get(i);
-                list.set(i, list.get(zeroIndex));
-                list.set(zeroIndex, temp);
-                zeroIndex++; // Move zeroIndex forward
+                list.set(i, list.get(zero));
+                list.set(zero, temp);
+                zero++; // Move zeroIndex forward
             }
         }
         
@@ -243,7 +244,6 @@ public class Main{
                 list.set(i, Math.max(list.get(i - 1), list.get(i + 1)));
             }
         }
-        
         return list;
     }
 
