@@ -127,9 +127,10 @@ public class Main{
    *  @param wordList  arraylist of words
    */
     public static ArrayList<String> moveBWords(ArrayList<String> wordList){
-        int e = 0;
+        int e = 0; // Used later to put words in order
         for (int i = 0; i < wordList.size(); i++) {
             String temp = wordList.get(i);
+            // Checks if b is the first letter
             if (wordList.get(i).indexOf("b") == 0 || wordList.get(i).indexOf("B") == 0 ) {
                 wordList.remove(i);
                 i--;
@@ -152,19 +153,23 @@ public class Main{
      *  @param intList  intList of Integers
      */
     public static ArrayList<Integer> removeDuplicates(ArrayList<Integer> intList) {
+        // Create a new list to store unique elements
         ArrayList<Integer> newList = new ArrayList<>();
-
+        // Iterate through each element in the original list
         for (Integer e : intList) {
+            // If the element is not already in the new list, add it
             if (!newList.contains(e)) {
                 newList.add(e);
             }
         }
-
-        intList.clear();  // Clear original list
-        intList.addAll(newList);  // Copy unique elements back
-
+        // Clear the original list to remove all elements
+        intList.clear();
+        // Add all the unique elements back into the original list. Researched addAll()
+        // https://www.geeksforgeeks.org/java-util-arraylist-addall-method-java/ 
+        intList.addAll(newList);
+        // Return the original list, now containing only unique elements
         return intList;
-    }
+    }    
 
 
     // Given an array of ints, 
@@ -210,15 +215,15 @@ public class Main{
     // zeroFront([0, 1, 1, 0, 1]) → [0, 0, 1, 1, 1]
     // zeroFront([1, 0]) → [0, 1]
     public static ArrayList<Integer> zeroFront(ArrayList<Integer> list) {
-        int zero = 0; // Tracks where to place the next zero
+        int zeroIndex = 0; // Tracks where to place the next zero
 
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) == 0) {
                 // Swap current element with the zeroIndex position
                 int temp = list.get(i);
-                list.set(i, list.get(zero));
-                list.set(zero, temp);
-                zero++; // Move zeroIndex forward
+                list.set(i, list.get(zeroIndex));
+                list.set(zeroIndex, temp);
+                zeroIndex++; // Move zeroIndex forward
             }
         }
         
@@ -234,19 +239,32 @@ public class Main{
     // of the given value which is alone is replaced by whichever value to its left or right is larger.
     // notAlone([1, 2, 3], 2) → [1, 3, 3]
     // notAlone([1, 2, 3, 2, 5, 2], 2) → [1, 3, 3, 5, 5, 5]
-    // notAlone([3, 4], 3) → [3, 3]
     public static ArrayList<Integer> notAlone(ArrayList<Integer> list, int val) {
-        if (list.size() < 2) { // No replacements possible for lists with < 2 elements
-            return list; 
-        }
+        // Loop through the list starting from the second element to the second-to-last element
         for (int i = 1; i < list.size() - 1; i++) {
-            if (list.get(i) == val && list.get(i - 1) != val && list.get(i + 1) != val) {
-                list.set(i, Math.max(list.get(i - 1), list.get(i + 1)));
+            // Check if the current element is equal to 'val' and is not adjacent to an identical value
+            if (list.get(i) == val && list.get(i) != list.get(i - 1) && list.get(i) != list.get(i + 1)) {
+                // If the element is alone and different from its neighbors, 
+                // replace it with the larger of the two neighbors
+                if (list.get(i - 1) > list.get(i + 1)) {
+                    list.set(i, list.get(i - 1)); // Set the value to the left neighbor if it's larger
+                } else {
+                    list.set(i, list.get(i + 1)); // Set the value to the right neighbor if it's larger
+                }
             }
         }
+        // Check if the first element is equal to 'val' and is smaller than the next element
+        if (list.get(0) == val && list.get(0) < list.get(1)) {
+            list.set(0, list.get(1)); // Set the first element to the second element
+        }
+        // Check if the last element is equal to 'val' and is smaller than the previous element
+        if (list.get(list.size() - 1) == val && list.get(list.size() - 1) < list.get(list.size() - 2)) {
+            list.set(list.size() - 1, list.get(list.size() - 2)); // Set the last element to the second-last element
+        }
+        // Return the modified list
         return list;
-    }
-
+    }    
+    
 
 
 
@@ -276,26 +294,31 @@ public class Main{
     // fix34([3, 2, 2, 4]) → [3, 4, 2, 2]
 
     public static ArrayList<Integer> fix34(ArrayList<Integer> list) {
+        // Create a list to store the indices of the 4s in the original list
         ArrayList<Integer> fours = new ArrayList<>();
+        
         // Find all positions of 4s that need to be placed
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) == 4) {
+                // Add the index of each 4 to the 'fours' list
                 fours.add(i);
             }
         }
+        // Variable to keep track of which 4 we are moving from the 'fours' list
         int fourIndex = 0;
-        // Place 4s immediately after 3s
+        // Place 4s immediately after each 3 in the list
         for (int i = 0; i < list.size() - 1; i++) {
             if (list.get(i) == 3) {
-                // Swap 4 into correct position
-                int temp = list.get(i + 1);
-                list.set(i + 1, 4);
-                list.set(fours.get(fourIndex), temp);
-                fourIndex++;
+                // Swap the 4 from the 'fours' list into the correct position
+                int temp = list.get(i + 1); // Store the value after the 3
+                list.set(i + 1, 4);         // Set the value at i+1 to 4
+                list.set(fours.get(fourIndex), temp); // Place the original value in the correct position of the list
+                fourIndex++; // Move to the next 4 in the fours list
             }
         }
         return list;
     }
+    
     
 
 
@@ -324,7 +347,46 @@ public class Main{
    *
    *  @param numList  numList of ints
    */
-    public static ArrayList<Integer> modes(int[] numList){
-        return new ArrayList<Integer>();
+    public static ArrayList<Integer> modes(int[] numList) {
+        ArrayList<Integer> modeList = new ArrayList<>();
+        // Array to count the frequency of each number (0-a large number)
+        int[] frequency = new int[100000]; // all 0's for later use
+        // Variable to track the highest frequency count
+        int maxCount = 0;
+        // Count occurrences of each number in numList
+        for (int num : numList) {
+            frequency[num]++; // Increment the frequency of the number by adding to one of the 0's
+            // Update maxCount if this number appears more times than previously found
+            if (frequency[num] > maxCount) {
+                maxCount = frequency[num];
+            }
+        }
+        // Check if all numbers appear the same number of times
+        int distinctFrequencies = 0;  
+        for (int i = 0; i < frequency.length; i++) {
+            if (frequency[i] > 0) {  // Only check numbers that appear at least once
+                // If it's the first frequency value, set it as distinctFrequencies
+                if (distinctFrequencies == 0) {
+                    distinctFrequencies = frequency[i];
+                } 
+                // If the current frequency is different, break out of the loop
+                else if (distinctFrequencies != frequency[i]) {
+                    distinctFrequencies = -1; // Set to -1 to indicate all numbers don't have the same frequency
+                    break;
+                }
+            }
+        }
+        // If all numbers have the same frequency, return an empty list
+        if (distinctFrequencies != -1) {
+            return modeList; 
+        }
+        // Collect numbers that appear most times 
+        for (int i = 0; i < frequency.length; i++) {
+            if (frequency[i] == maxCount) {  // If the number appears the most
+                modeList.add(i);  
+            }
+        }
+        return modeList;
     }
-}
+
+    }
