@@ -216,7 +216,6 @@ public class Main{
     // zeroFront([1, 0]) → [0, 1]
     public static ArrayList<Integer> zeroFront(ArrayList<Integer> list) {
         int zeroIndex = 0; // Tracks where to place the next zero
-
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) == 0) {
                 // Swap current element with the zeroIndex position
@@ -276,7 +275,7 @@ public class Main{
 
     public static ArrayList<Integer> shiftLeft(ArrayList<Integer> list) {
         if (list.size() > 1) { // No need to shift if there's 0 or 1 element
-            int first = list.remove(0); // Remove the first element
+            int first = list.remove(0); 
             list.add(first); // Append it to the end
         }
         return list;
@@ -350,7 +349,7 @@ public class Main{
     public static ArrayList<Integer> modes(int[] numList) {
         ArrayList<Integer> modeList = new ArrayList<>();
         // Array to count the frequency of each number (0-a large number)
-        int[] frequency = new int[100000]; // all 0's for later use
+        int[] frequency = new int[100]; // all 0's for later use
         // Variable to track the highest frequency count
         int maxCount = 0;
         // Count occurrences of each number in numList
@@ -365,7 +364,6 @@ public class Main{
         int distinctFrequencies = 0;  
         for (int i = 0; i < frequency.length; i++) {
             if (frequency[i] > 0) {  // Only check numbers that appear at least once
-                // If it's the first frequency value, set it as distinctFrequencies
                 if (distinctFrequencies == 0) {
                     distinctFrequencies = frequency[i];
                 } 
